@@ -7,34 +7,39 @@ const DashboardLayout = () => {
     const colorScheme = useColorScheme()
     const theme = Colors[colorScheme] ?? Colors.light
 
+    const ICON_SIZE = 29
+
   return (
     <Tabs
         screenOptions={{
+            tabBarShowLabel: false,
             headerShown: false,
             tabBarStyle:{
             backgroundColor: theme.navBackground,
-            paddingTop: 10,
-            height: 90
+            paddingTop: 15,
+            height: 80
         },
         tabBarActiveTintColor: theme.iconColorFocused,
         tabBarInactiveTintColor: theme.iconColor
     }}
     >
-        <Tabs.Screen name="create" options={{tabBarIcon: ({focused}) => (
+        <Tabs.Screen name="sessions" options={{tabBarIcon: ({focused}) => (
             <Ionicons
-                size={24}
-                name={focused ? "add-circle" : "add-circle-outline"}
+                size={ICON_SIZE}
+                name={focused ? "school" : "school-outline"}
                 color={focused ? theme.iconColorFocused : theme.iconColor}
             />
-    )}}/>
+        )}}/>
 
         <Tabs.Screen name="profile" options={{tabBarIcon: ({focused}) => (
             <Ionicons
-                size={24}
+                size={ICON_SIZE}
                 name={focused ? "person" : "person-outline"}
                 color={focused ? theme.iconColorFocused : theme.iconColor}
             />
         )}}/>
+
+        <Tabs.Screen name="createSession" options={{href: null}}/>
     </Tabs>
   )
 }

@@ -12,6 +12,7 @@ const Home = () => {
       <Link href="/login">Login</Link>
       <Link href="/register">Register</Link>
       <Link href="/profile">Profilo</Link>
+      <Link href="/sessions">Sessioni</Link>
     </View>
   )
 }

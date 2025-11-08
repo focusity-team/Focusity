@@ -81,7 +81,7 @@ const Register = () => {
           </Link>
         </ThemedText>
 
-        <ThemedButton style={{ marginTop: 15 }} scale="1.2" onPress={handleSubmit}>
+        <ThemedButton disabled={!username || !password || !email} style={{ marginTop: 15 }} scale={1.2} onPress={handleSubmit}>
           <ThemedText style={{ color: "white" }}>Registrati</ThemedText>
         </ThemedButton>
       </ThemedView>

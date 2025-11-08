@@ -1,15 +1,9 @@
-import { z, ZodTypeAny, ZodString, ZodNumber } from "zod";
-
+import { z } from "zod";
 // CONSTANTS
 import { UserData } from "../constants/UserData";
 
-type Schema = {
-  type: "UserData";
-  [key: string]: any;
-};
-
-function buildZodSchema(schemaName: string) {
-  let rawSchema: Record<string, any> = {};
+function buildZodSchema(schemaName) {
+  let rawSchema = {};
 
   switch (schemaName) {
     case "UserData":
@@ -19,16 +13,16 @@ function buildZodSchema(schemaName: string) {
       throw new Error(`Schema ${schemaName} non trovato`);
   }
 
-  const zodShape: Record<string, ZodTypeAny> = {};
+  const zodShape = {};
 
   for (const key in rawSchema) {
     const field = rawSchema[key];
 
-    let validator: ZodTypeAny;
+    let validator;
 
     switch (field.type) {
       case "string": {
-        let stringValidator: ZodString = z.string();
+        let stringValidator = z.string();
 
         if (field.minLength !== undefined) stringValidator = stringValidator.min(field.minLength);
         if (field.maxLength !== undefined) stringValidator = stringValidator.max(field.maxLength);
@@ -39,7 +33,7 @@ function buildZodSchema(schemaName: string) {
       }
 
       case "number": {
-        let numberValidator: ZodNumber = z.number();
+        let numberValidator = z.number();
 
         if (field.min !== undefined) numberValidator = numberValidator.min(field.min);
         if (field.max !== undefined) numberValidator = numberValidator.max(field.max);
@@ -58,13 +52,13 @@ function buildZodSchema(schemaName: string) {
   return z.object(zodShape);
 }
 
-export default function DataValidator(schema: Schema) {
+export default function DataValidator(schema) {
   if (!schema.type) throw new Error("Schema type mancante");
 
   const zodSchema = buildZodSchema(schema.type);
 
   return {
-    validate: (data: Record<string, any>) => {
+    validate: (data) => {
       try {
         const result = zodSchema.parse(data);
         return { success: true, data: result };

@@ -77,7 +77,7 @@ const Login = () => {
               </Link>
           </ThemedText>
 
-          <ThemedButton style={{marginTop: 15}} scale="1.2" onPress={handleSubmit}>
+          <ThemedButton disabled={!username || !password} style={{marginTop: 15}} scale={1.2} onPress={handleSubmit}>
             <ThemedText style={{color: "white"}}>Accedi</ThemedText>
           </ThemedButton>
       </ThemedView>
