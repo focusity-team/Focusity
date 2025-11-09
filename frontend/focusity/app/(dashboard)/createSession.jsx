@@ -7,14 +7,17 @@ import { Ionicons } from '@expo/vector-icons'
 import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 import ThemedTextInput from '../../components/ThemedTextInput'
+import ThemedNumInput from '../../components/ThemedNumInput'
 import Spacer from '../../components/Spacer'
 import ThemedButton from '../../components/ThemedButton'
 import ThemedCard from '../../components/ThemedCard'
 
+// CONSTANTS
+import DataValidator from '../../components/DataValidator'
+
 // IMG
 import PomodoroTimerImg from "../../assets/timer/pomodoro-timer-outline.png"
 import FlowmodoroTimerImg from "../../assets/timer/flowmodoro-timer-outline.png"
-import CustomTimerImg from "../../assets/timer/custom-timer-outline.png"
 import Hr from '../../components/Hr'
 
 
@@ -23,16 +26,16 @@ const CreateSession = () => {
   const [topic, setTopic] = useState("")
   const [subject, setSubject] = useState("")
   
-  const [studyTime, setStudyTime] = useState("25")
-  const [shortBreak, setShortBreak] = useState("5")
-  const [longBreak, setLongBreak] = useState("15")
-  const [numCycles, setNumCycles] = useState("4")
+  const [studyTime, setStudyTime] = useState(25)
+  const [shortBreak, setShortBreak] = useState(5)
+  const [longBreak, setLongBreak] = useState(15)
+  const [numCycles, setNumCycles] = useState(4)
 
   const [step, setStep] = useState(1)
   const [hasReachedStep5, setHasReachedStep5] = useState(false)
 
   useEffect(() => {
-    if (step === 5) {
+    if ((hasReachedStep5 === false) && (step === 5)) {
       setHasReachedStep5(true)
     }
   }, [step])
@@ -40,33 +43,69 @@ const CreateSession = () => {
   
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
+  const cancel = () => {
+    reset()
+    setStep(1)
+  }
+  const reset = () => {
+    setTitle("Sessione 1")
+    setTopic("")
+    setSubject("")
+    setStudyTime(25)
+    setShortBreak(5)
+    setLongBreak(15)
+    setNumCycles(4)
+    setStep(1)
+    setHasReachedStep5(false)
+    setTimerIndex(null)
+  }
+
+  const resetTimerValues = () => {
+    setStudyTime(25)
+    setShortBreak(5)
+    setLongBreak(15)
+    setNumCycles(4)
+    setErrors({})
+  }
+  
   const prevStepAndResetTimerValues = () => {
-    setStudyTime("25")
-    setShortBreak("5")
-    setLongBreak("15")
-    setNumCycles("4")
-    setStep((prev) => prev - 1)
+    resetTimerValues()
+    prevStep()
   }
   const toSession = () => setStep(1)
   const toSegment = () => setStep(2)
   const toTimerPicker = () => setStep(3)
   const toRecap = () => setStep(5)
+
+  const [errors, setErrors] = useState({})
+
+  const validateTimerValues = () => {
+    const result = validator.validate({
+        studyTime: studyTime,
+        shortBreak: shortBreak,
+        longBreak: longBreak,
+        numCycles: numCycles,
+    });
+
+    if (!result.success) {
+      const formattedErrors = {}
+      result.errors.forEach(err => {
+        formattedErrors[err.path[0]] = err.message
+      })
+      setErrors(formattedErrors)
+      return
+    }
+
+    setErrors({})
+    nextStep()
+  }
   
   const [timerIndex, setTimerIndex] = useState(null)
   
   useFocusEffect(
     useCallback(() => {
       return () => {
-        setTitle("Sessione 1")
-        setTopic("")
-        setSubject("")
-        setStudyTime("25")
-        setShortBreak("5")
-        setLongBreak("15")
-        setNumCycles("4")
-        setStep(1)
-        setHasReachedStep5(false)
-        setTimerIndex(null)
+        reset()
       }
     }, [])
   )
@@ -74,8 +113,9 @@ const CreateSession = () => {
   const cards = [
     { text: 'Pomodoro', img: PomodoroTimerImg },
     { text: 'Flowmodoro', img: FlowmodoroTimerImg },
-    { text: 'Custom', img: CustomTimerImg },
   ]
+
+  const validator = DataValidator({ type: "TimerValueData" });
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -164,11 +204,17 @@ const CreateSession = () => {
             <Spacer height={20} />
 
             <ThemedView style={styles.rowContainer}>
-                <ThemedButton onPress={prevStep} style={{marginTop: 30}}>
-                  <ThemedText style={{color: "white"}}>Indietro</ThemedText>
-                </ThemedButton>
+              {!hasReachedStep5 ? (
+                <>
+                  <ThemedButton onPress={prevStep} style={{marginTop: 30}}>
+                    <ThemedText style={{color: "white"}}>Indietro</ThemedText>
+                  </ThemedButton>
+                  <Spacer width="20%" />
+                </>
+              ) : (
+                <Spacer width="48%" />
+              )}
 
-                <Spacer width="20%" />
 
                 <ThemedButton disabled={timerIndex === null} onPress={timerIndex !== 1 ? nextStep : toRecap} style={{marginTop: 30}}>
                   <ThemedText style={{color: "white"}}>{timerIndex === 1 ? "Avanti" : "Personalizza"}</ThemedText>
@@ -187,29 +233,33 @@ const CreateSession = () => {
 
                 <ThemedText style={{fontSize: 20}} title>Pomodoro (minuti)</ThemedText>
                 <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Durata pomodoro (es. 25)" onChangeText={setStudyTime} value={studyTime} />
+                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Durata pomodoro (es. 25)" onChangeText={setStudyTime} value={studyTime} />
                 </ThemedView>
+                {errors.studyTime && <ThemedText warning={true}>{errors.studyTime}</ThemedText>}
 
                 <Spacer height="22"/>
 
                 <ThemedText style={{fontSize: 20}} title>Pausa corta (minuti)</ThemedText>
                 <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Durata pausa corta (es. 5)" onChangeText={setShortBreak} value={shortBreak} />
+                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Durata pausa corta (es. 5)" onChangeText={setShortBreak} value={shortBreak} />
                 </ThemedView>
+                {errors.shortBreak && <ThemedText warning={true}>{errors.shortBreak}</ThemedText>}
                 
                 <Spacer height="22"/>
 
                 <ThemedText style={{fontSize: 20}} title>Pausa lunga (minuti)</ThemedText>
                 <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Durata pausa lunga (es. 15)" onChangeText={setLongBreak} value={longBreak} />
+                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Durata pausa lunga (es. 15)" onChangeText={setLongBreak} value={longBreak} />
                 </ThemedView>
+                {errors.longBreak && <ThemedText warning={true}>{errors.longBreak}</ThemedText>}
                 
                 <Spacer height="22"/>
 
                 <ThemedText style={{fontSize: 20}} title>Cicli prima della pausa lunga</ThemedText>
                 <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Cicli prima della pausa lunga (es. 4)" onChangeText={setNumCycles} value={numCycles} />
+                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Cicli prima della pausa lunga (es. 4)" onChangeText={setNumCycles} value={numCycles} />
                 </ThemedView>
+                {errors.numCycles && <ThemedText warning={true}>{errors.numCycles}</ThemedText>}
                 
                 <Spacer width="20%" />
 
@@ -220,57 +270,15 @@ const CreateSession = () => {
                     <ThemedText style={{color: "white"}}>Indietro</ThemedText>
                   </ThemedButton>
 
-                  <Spacer width="20%" />
+                  <Spacer width="2%" />
 
-                  <ThemedButton disabled={!studyTime || !shortBreak || !longBreak || !numCycles} onPress={nextStep} style={{marginTop: 30}}>
-                    <ThemedText style={{color: "white"}}>Avanti</ThemedText>
-                  </ThemedButton>
-                </ThemedView>
-              </>
-            )}
-
-            {timerIndex === 2 && (
-              <>
-                <ThemedText title={true} style={{fontWeight: "bold", fontSize: 30}}>Personalizza timer</ThemedText>
-
-                <Spacer />
-
-                <ThemedText style={{fontSize: 20}} title>Tempo di studio (minuti)</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Durata studio (es. 25)" onChangeText={setStudyTime} value={studyTime} />
-                </ThemedView>
-
-                <Spacer height="22"/>
-
-                <ThemedText style={{fontSize: 20}} title>Pausa corta (minuti)</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Durata pausa corta (es. 5)" onChangeText={setShortBreak} value={shortBreak} />
-                </ThemedView>
-                
-                <Spacer height="22"/>
-
-                <ThemedText style={{fontSize: 20}} title>Pausa lunga (minuti)</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Durata pausa lunga (es. 15)" onChangeText={setLongBreak} value={longBreak} />
-                </ThemedView>
-                
-                <Spacer height="22"/>
-
-                <ThemedText style={{fontSize: 20}} title>Cicli prima della pausa lunga</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedTextInput keyboardType="numeric" style={{textAlign: "center"}} width="70%" placeholder="Cicli prima della pausa lunga (es. 4)" onChangeText={setNumCycles} value={numCycles} />
-                </ThemedView>
-
-                <Spacer height={20} />
-
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedButton onPress={prevStepAndResetTimerValues} style={{marginTop: 30}}>
-                    <ThemedText style={{color: "white"}}>Indietro</ThemedText>
+                  <ThemedButton warning onPress={resetTimerValues} style={{marginTop: 30}}>
+                    <ThemedText style={{color: "white"}}>Resetta a default</ThemedText>
                   </ThemedButton>
 
-                  <Spacer width="20%" />
+                  <Spacer width="2%" />
 
-                  <ThemedButton disabled={!studyTime || !shortBreak || !longBreak || !numCycles} onPress={nextStep} style={{marginTop: 30}}>
+                  <ThemedButton disabled={!studyTime || !shortBreak || !longBreak || !numCycles} onPress={validateTimerValues} style={{marginTop: 30}}>
                     <ThemedText style={{color: "white"}}>Avanti</ThemedText>
                   </ThemedButton>
                 </ThemedView>
@@ -329,18 +337,17 @@ const CreateSession = () => {
             </Pressable>
 
             <Hr width='85%'/>
-
             <ThemedView style={styles.rowContainer}>
-              <ThemedButton onPress={toTimerPicker} style={{marginTop: 30}}>
-                <ThemedText style={{color: "white"}}>Indietro</ThemedText>
-              </ThemedButton>
+                <ThemedButton warning onPress={cancel} style={{marginTop: 30}}>
+                  <ThemedText style={{color: "white"}}>Annulla</ThemedText>
+                </ThemedButton>
 
-              <Spacer width="20%" />
+                <Spacer width="20%" />
 
-              <ThemedButton onPress={nextStep} style={{marginTop: 30}}>
-                <ThemedText style={{color: "white"}}>Inizia sessione</ThemedText>
-              </ThemedButton>
-            </ThemedView>
+                <ThemedButton onPress={nextStep} style={{marginTop: 30}}>
+                  <ThemedText style={{color: "white"}}>Inizia sessione</ThemedText>
+                </ThemedButton>
+              </ThemedView>    
           </>
         )}
       </ThemedView>

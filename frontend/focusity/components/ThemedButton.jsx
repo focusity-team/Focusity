@@ -4,10 +4,10 @@ import React from 'react'
 // CONSTANTS
 import { Colors } from "../constants/Colors"
 
-const ThemedButton = ({scale=1, style, disabled=false, ...props}) => {
+const ThemedButton = ({warning=false, scale=1, style, disabled=false, ...props}) => {
   return (
     <Pressable
-        style={({ pressed }) => [styles.btn, disabled && styles.disabled, pressed && !disabled && styles.pressed, {transform: [{ scale: !disabled && pressed ? scale * 0.85 : scale }]}, style]}
+        style={({ pressed }) => [styles.btn, disabled && styles.disabled, pressed && !disabled && styles.pressed, warning && {backgroundColor: Colors.warning}, {transform: [{ scale: !disabled && pressed ? scale * 0.85 : scale }]}, style]}
         disabled={disabled}
         {...props}
     />

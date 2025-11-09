@@ -1,6 +1,7 @@
 import { z } from "zod";
 // CONSTANTS
-import { UserData } from "../constants/UserData";
+import { UserData } from "../constants/data_types/UserData";
+import { TimerValueData } from "../constants/data_types/TimerValueData";
 
 function buildZodSchema(schemaName) {
   let rawSchema = {};
@@ -8,6 +9,9 @@ function buildZodSchema(schemaName) {
   switch (schemaName) {
     case "UserData":
       rawSchema = UserData;
+      break;
+    case "TimerValueData":
+      rawSchema = TimerValueData;
       break;
     default:
       throw new Error(`Schema ${schemaName} non trovato`);
