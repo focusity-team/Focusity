@@ -43,13 +43,14 @@ const Register = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ThemedText title={true} style={{ fontWeight: "bold", fontSize: 40 }}>Registrazione</ThemedText>
+      <ThemedView container center>
+        <ThemedText title={true} fontSize={38} bold>Registrazione</ThemedText>
 
         <Spacer />
 
         <ThemedTextInput
-          style={{ width: "80%", marginBottom: 10 }}
+          marginBottom={10}
+          style={{ width: "80%" }}
           placeholder="Username"
           onChangeText={setUsername}
           value={username}
@@ -57,7 +58,8 @@ const Register = () => {
         {errors.username && <ThemedText warning={true}>{errors.username}</ThemedText>}
 
         <ThemedTextInput
-          style={{ width: "80%", marginBottom: 10 }}
+          marginBottom={10}
+          style={{ width: "80%"}}
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
@@ -66,7 +68,8 @@ const Register = () => {
         {errors.email && <ThemedText warning={true}>{errors.email}</ThemedText>}
 
         <ThemedTextInput
-          style={{ width: "80%", marginBottom: 10 }}
+          marginBottom={10}
+          style={{ width: "80%"}}
           placeholder="Password"
           onChangeText={setPassword}
           value={password}
@@ -74,14 +77,14 @@ const Register = () => {
         />
         {errors.password && <ThemedText warning={true}>{errors.password}</ThemedText>}
 
-        <ThemedText style={{ marginBottom: 10 }}>
+        <ThemedText marginBottom={10}>
           Sei già registrato?
           <Link href="/login">
             <ThemedText link={true}> Accedi</ThemedText>
           </Link>
         </ThemedText>
 
-        <ThemedButton disabled={!username || !password || !email} style={{ marginTop: 15 }} scale={1.2} onPress={handleSubmit}>
+        <ThemedButton disabled={!username || !password || !email} marginTop={15} scale={1.2} onPress={handleSubmit}>
           <ThemedText style={{ color: "white" }}>Registrati</ThemedText>
         </ThemedButton>
       </ThemedView>

@@ -2,6 +2,7 @@ import { Tabs } from "expo-router"
 import { useColorScheme } from "react-native"
 import { Colors } from "../../constants/Colors"
 import { Ionicons } from "@expo/vector-icons"
+import { StatusBar } from "expo-status-bar"
 
 const DashboardLayout = () => {
     const colorScheme = useColorScheme()
@@ -10,6 +11,8 @@ const DashboardLayout = () => {
     const ICON_SIZE = 29
 
   return (
+    <>
+    <StatusBar value="auto" />
     <Tabs
         screenOptions={{
             tabBarShowLabel: false,
@@ -41,6 +44,7 @@ const DashboardLayout = () => {
 
         <Tabs.Screen name="createSession" options={{href: null}}/>
     </Tabs>
+    </>
   )
 }
 

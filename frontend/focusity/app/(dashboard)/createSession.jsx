@@ -2,6 +2,7 @@ import { Keyboard, Pressable, StyleSheet, TouchableWithoutFeedback } from 'react
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useFocusEffect } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+import { moderateScale } from 'react-native-size-matters'
 
 // THEMED
 import ThemedView from '../../components/ThemedView'
@@ -119,10 +120,10 @@ const CreateSession = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ThemedView style={styles.container} safe={true}>
+      <ThemedView container center safe={true}>
         {step === 1 && (
           <>
-            <ThemedText title={true} style={{fontWeight: "bold", fontSize: 30}}>Crea una nuova sessione {hasReachedStep5}</ThemedText>
+            <ThemedText title={true} fontSize={26} bold>Crea una nuova sessione {hasReachedStep5}</ThemedText>
 
             <Spacer />
             
@@ -135,10 +136,10 @@ const CreateSession = () => {
                 <ThemedText style={{color: "white"}}>Salva e torna al recap</ThemedText>
               </ThemedButton>
               ) : (
-                <ThemedView style={styles.rowContainer}>
+                <ThemedView center row>
                   <Spacer width="48%" />
 
-                  <ThemedButton disabled={!title} onPress={nextStep} style={{marginTop: 30}}>
+                  <ThemedButton disabled={!title} onPress={nextStep} marginTop={30}>
                     <ThemedText style={{color: "white"}}>Avanti</ThemedText>
                   </ThemedButton>
                 </ThemedView>
@@ -149,7 +150,7 @@ const CreateSession = () => {
 
         {step === 2 && (
           <>
-            <ThemedText title={true} style={{fontWeight: "bold", fontSize: 30}}>Segmento 1</ThemedText>
+            <ThemedText title={true} fontSize={26} bold>Segmento 1</ThemedText>
 
             <Spacer />
             
@@ -166,14 +167,14 @@ const CreateSession = () => {
                 <ThemedText style={{color: "white"}}>Salva e torna al recap</ThemedText>
               </ThemedButton>
             ) : (
-              <ThemedView style={styles.rowContainer}>
-                <ThemedButton onPress={prevStep} style={{marginTop: 30}}>
+              <ThemedView center row>
+                <ThemedButton onPress={prevStep} marginTop={30}>
                   <ThemedText style={{color: "white"}}>Indietro</ThemedText>
                 </ThemedButton>
 
                 <Spacer width="20%" />
 
-                <ThemedButton disabled={!topic || !subject} onPress={nextStep} style={{marginTop: 30}}>
+                <ThemedButton disabled={!topic || !subject} onPress={nextStep} marginTop={30} >
                   <ThemedText style={{color: "white"}}>Avanti</ThemedText>
                 </ThemedButton>
               </ThemedView>
@@ -183,11 +184,11 @@ const CreateSession = () => {
 
         {step === 3 && (
           <>
-            <ThemedText title={true} style={{fontWeight: "bold", fontSize: 30}}>Scegli il tipo di timer</ThemedText>
+            <ThemedText title={true} fontSize={26} bold>Scegli il tipo di timer</ThemedText>
 
             <Spacer />
 
-            <ThemedView style={styles.rowContainer}>
+            <ThemedView center row>
               {cards.map((card, index) => (
                 <ThemedCard
                   key={index}
@@ -203,10 +204,10 @@ const CreateSession = () => {
 
             <Spacer height={20} />
 
-            <ThemedView style={styles.rowContainer}>
+            <ThemedView center row>
               {!hasReachedStep5 ? (
                 <>
-                  <ThemedButton onPress={prevStep} style={{marginTop: 30}}>
+                  <ThemedButton onPress={prevStep} marginTop={30}>
                     <ThemedText style={{color: "white"}}>Indietro</ThemedText>
                   </ThemedButton>
                   <Spacer width="20%" />
@@ -216,7 +217,7 @@ const CreateSession = () => {
               )}
 
 
-                <ThemedButton disabled={timerIndex === null} onPress={timerIndex !== 1 ? nextStep : toRecap} style={{marginTop: 30}}>
+                <ThemedButton disabled={timerIndex === null} onPress={timerIndex !== 1 ? nextStep : toRecap} marginTop={30}>
                   <ThemedText style={{color: "white"}}>{timerIndex === 1 ? "Avanti" : "Personalizza"}</ThemedText>
                 </ThemedButton>
               </ThemedView>
@@ -227,58 +228,54 @@ const CreateSession = () => {
           <>
             {timerIndex === 0 && (
               <>
-                <ThemedText title={true} style={{fontWeight: "bold", fontSize: 30}}>Personalizza pomodoro</ThemedText>
+                <ThemedText title={true} fontSize={26} bold>Personalizza pomodoro</ThemedText>
 
                 <Spacer />
 
-                <ThemedText style={{fontSize: 20}} title>Pomodoro (minuti)</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Durata pomodoro (es. 25)" onChangeText={setStudyTime} value={studyTime} />
+                <ThemedText fontSize={18} title>Pomodoro (minuti)</ThemedText>
+                <ThemedView center row>
+                  <ThemedNumInput center width="70%" placeholder="Durata pomodoro (es. 25)" onChangeText={setStudyTime} value={studyTime} />
                 </ThemedView>
                 {errors.studyTime && <ThemedText warning={true}>{errors.studyTime}</ThemedText>}
 
                 <Spacer height="22"/>
 
-                <ThemedText style={{fontSize: 20}} title>Pausa corta (minuti)</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Durata pausa corta (es. 5)" onChangeText={setShortBreak} value={shortBreak} />
+                <ThemedText fontSize={18} title>Pausa corta (minuti)</ThemedText>
+                <ThemedView center row>
+                  <ThemedNumInput center width="70%" placeholder="Durata pausa corta (es. 5)" onChangeText={setShortBreak} value={shortBreak} />
                 </ThemedView>
                 {errors.shortBreak && <ThemedText warning={true}>{errors.shortBreak}</ThemedText>}
                 
                 <Spacer height="22"/>
 
-                <ThemedText style={{fontSize: 20}} title>Pausa lunga (minuti)</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Durata pausa lunga (es. 15)" onChangeText={setLongBreak} value={longBreak} />
+                <ThemedText fontSize={18} title>Pausa lunga (minuti)</ThemedText>
+                <ThemedView center row>
+                  <ThemedNumInput center width="70%" placeholder="Durata pausa lunga (es. 15)" onChangeText={setLongBreak} value={longBreak} />
                 </ThemedView>
                 {errors.longBreak && <ThemedText warning={true}>{errors.longBreak}</ThemedText>}
                 
                 <Spacer height="22"/>
 
-                <ThemedText style={{fontSize: 20}} title>Cicli prima della pausa lunga</ThemedText>
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedNumInput style={{textAlign: "center"}} width="70%" placeholder="Cicli prima della pausa lunga (es. 4)" onChangeText={setNumCycles} value={numCycles} />
+                <ThemedText fontSize={18} title>Cicli prima della pausa lunga</ThemedText>
+                <ThemedView center row>
+                  <ThemedNumInput center width="70%" placeholder="Cicli prima della pausa lunga (es. 4)" onChangeText={setNumCycles} value={numCycles} />
                 </ThemedView>
                 {errors.numCycles && <ThemedText warning={true}>{errors.numCycles}</ThemedText>}
-                
-                <Spacer width="20%" />
-
-                <Spacer height={20} />
-
-                <ThemedView style={styles.rowContainer}>
-                  <ThemedButton onPress={prevStepAndResetTimerValues} style={{marginTop: 30}}>
+               
+                <Spacer />
+              
+                <ThemedView center row>
+                  <ThemedButton onPress={prevStepAndResetTimerValues} marginTop={30}>
                     <ThemedText style={{color: "white"}}>Indietro</ThemedText>
                   </ThemedButton>
 
-                  <Spacer width="2%" />
 
-                  <ThemedButton warning onPress={resetTimerValues} style={{marginTop: 30}}>
+                  <ThemedButton warning onPress={resetTimerValues} marginTop={30}>
                     <ThemedText style={{color: "white"}}>Resetta a default</ThemedText>
                   </ThemedButton>
 
-                  <Spacer width="2%" />
 
-                  <ThemedButton disabled={!studyTime || !shortBreak || !longBreak || !numCycles} onPress={validateTimerValues} style={{marginTop: 30}}>
+                  <ThemedButton disabled={!studyTime || !shortBreak || !longBreak || !numCycles} onPress={validateTimerValues} marginTop={30}>
                     <ThemedText style={{color: "white"}}>Avanti</ThemedText>
                   </ThemedButton>
                 </ThemedView>
@@ -289,11 +286,11 @@ const CreateSession = () => {
 
         {step === 5 && (
           <>
-            <ThemedText title={true} style={{fontWeight: "bold", fontSize: 30}}>Recap</ThemedText>
+            <ThemedText title={true} fontSize={26} bold>Recap</ThemedText>
             
             <Spacer height={20} />
 
-            <ThemedView style={styles.rowContainer}>
+            <ThemedView center row>
               <ThemedText style={styles.recap} title>Titolo sessione: </ThemedText>
               <ThemedText style={styles.recap} >{title}</ThemedText>
             </ThemedView>
@@ -304,12 +301,12 @@ const CreateSession = () => {
 
             <Hr width='85%'/>
 
-            <ThemedView style={styles.rowContainer}>
+            <ThemedView center row>
               <ThemedText style={styles.recap} title>Materia: </ThemedText>
               <ThemedText style={styles.recap}>{subject}</ThemedText>
             </ThemedView>
 
-            <ThemedView style={styles.rowContainer}>
+            <ThemedView center row>
               <ThemedText style={styles.recap} title>Topic: </ThemedText>
               <ThemedText style={styles.recap}>{topic}</ThemedText>
             </ThemedView>
@@ -320,7 +317,7 @@ const CreateSession = () => {
 
             <Hr width='85%'/>
 
-            <ThemedView style={styles.rowContainer}>
+            <ThemedView center row>
               <ThemedText style={styles.recap} title>Timer: </ThemedText>
               <ThemedText style={styles.recap}>
                 {timerIndex === 0 ? (
@@ -337,14 +334,14 @@ const CreateSession = () => {
             </Pressable>
 
             <Hr width='85%'/>
-            <ThemedView style={styles.rowContainer}>
-                <ThemedButton warning onPress={cancel} style={{marginTop: 30}}>
+            <ThemedView center row >
+                <ThemedButton warning onPress={cancel} marginTop={30}>
                   <ThemedText style={{color: "white"}}>Annulla</ThemedText>
                 </ThemedButton>
 
                 <Spacer width="20%" />
 
-                <ThemedButton onPress={nextStep} style={{marginTop: 30}}>
+                <ThemedButton onPress={nextStep} marginTop={30}>
                   <ThemedText style={{color: "white"}}>Inizia sessione</ThemedText>
                 </ThemedButton>
               </ThemedView>    
@@ -373,6 +370,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   recap: {
-    fontSize: 20
+    fontSize: moderateScale(20)
   },
 })

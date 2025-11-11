@@ -48,13 +48,14 @@ const Login = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ThemedView style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-          <ThemedText title={true} style={{fontWeight: "bold", fontSize: 40}}>Login</ThemedText>
+      <ThemedView container center>
+          <ThemedText title={true} fontSize={38} bold>Login</ThemedText>
 
           <Spacer />
 
           <ThemedTextInput
-            style={{width: "80%", marginBottom: 20}}
+            marginBottom={20}
+            width="80%"
             placeholder="Username"
             onChangeText={setUsername}
             value={username}
@@ -62,7 +63,8 @@ const Login = () => {
           {errors.username && <ThemedText warning={true}>{errors.username}</ThemedText>}
 
           <ThemedTextInput
-            style={{width: "80%", marginBottom: 20}}
+            width="80%"
+            marginBottom={20}
             placeholder="Password"
             onChangeText={setPassword}
             value={password}
@@ -70,14 +72,14 @@ const Login = () => {
           />
           {errors.password && <ThemedText warning={true}>{errors.password}</ThemedText>}
 
-          <ThemedText style={{marginBottom: 10}}>
+          <ThemedText marginBottom={10}>
               Non hai ancora un account?
               <Link href="/register">
                 <ThemedText link={true}> Registrati</ThemedText>
               </Link>
           </ThemedText>
 
-          <ThemedButton disabled={!username || !password} style={{marginTop: 15}} scale={1.2} onPress={handleSubmit}>
+          <ThemedButton disabled={!username || !password} marginTop={15} scale={1.2} onPress={handleSubmit}>
             <ThemedText style={{color: "white"}}>Accedi</ThemedText>
           </ThemedButton>
       </ThemedView>

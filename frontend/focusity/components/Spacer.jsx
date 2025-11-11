@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
 
-const Spacer = ({width, height = 40}) => {
+const Spacer = ({width = "0%", height = "5%"}) => {
   return (
     <View style={{width, height}} />
   )

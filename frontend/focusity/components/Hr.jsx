@@ -1,7 +1,10 @@
 import { View, StyleSheet, useColorScheme } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
+
+// CONSTANTS
 import { Colors } from '../constants/Colors';
 
-const Hr = ({thickness = 1, width = '100%', marginVertical = 10 }) => {
+const Hr = ({thickness = 1, width = "100%", marginVertical = 10 }) => {
     const colorScheme = useColorScheme()
     const theme = Colors[colorScheme] ?? Colors.light
 
@@ -11,9 +14,9 @@ const Hr = ({thickness = 1, width = '100%', marginVertical = 10 }) => {
         styles.hr,
         {
           backgroundColor: theme.iconColor,
-          height: thickness,
+          height: moderateScale(thickness),
           width,
-          marginVertical,
+          marginVertical: moderateScale(marginVertical),
         },
       ]}
     />

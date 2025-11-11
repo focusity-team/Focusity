@@ -1,9 +1,10 @@
-import { useColorScheme, View } from 'react-native'
+import { StyleSheet, useColorScheme, View } from 'react-native'
 import { Colors } from '../constants/Colors'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { responsiveWidth as wp} from 'react-native-responsive-dimensions';
 
 
-const ThemedView = ({style, safe=false, ...props}) => {
+const ThemedView = ({width=100, style, row=false, container=false, center=false, centerV=false, centerH=false, safe=false, ...props}) => {
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
 
@@ -11,7 +12,7 @@ const ThemedView = ({style, safe=false, ...props}) => {
     return (
       <View
       style={[{
-          backgroundColor: theme.background}, style]}
+          backgroundColor: theme.background, width: wp(width)}, style, container && styles.container, row && styles.row, center && styles.center, centerV && styles.centerV, centerH && styles.centerH]}
           {...props}
       />
     )
@@ -25,7 +26,8 @@ const ThemedView = ({style, safe=false, ...props}) => {
         backgroundColor: theme.background,
         marginTop: insets.top,
         marginBottom: insets.bottom,
-      }, style]}
+        width: wp(width)
+      }, style, row && style.row, container && styles.container, center && styles.center, centerV && styles.centerV, centerH && styles.centerH]}
         {...props}
     />
   )
@@ -33,3 +35,23 @@ const ThemedView = ({style, safe=false, ...props}) => {
 
 
 export default ThemedView
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  row: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  center: {
+   justifyContent: "center",
+   alignItems: "center", 
+  },
+  centerV: {
+    alignItems: "center",
+  },
+  centerH: {
+    justifyContent: "center",
+  },
+})
