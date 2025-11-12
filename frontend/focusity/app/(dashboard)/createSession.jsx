@@ -129,7 +129,7 @@ const CreateSession = () => {
             
             <ThemedTextInput style={styles.textInput} placeholder="Titolo" onChangeText={setTitle} value={title} />
 
-            <Spacer height={20} />
+            <Spacer />
 
             {hasReachedStep5 ? (
               <ThemedButton onPress={toRecap}>
@@ -137,7 +137,7 @@ const CreateSession = () => {
               </ThemedButton>
               ) : (
                 <ThemedView center row>
-                  <Spacer width="48%" />
+                  <Spacer width={40} />
 
                   <ThemedButton disabled={!title} onPress={nextStep} marginTop={30}>
                     <ThemedText style={{color: "white"}}>Avanti</ThemedText>
@@ -154,13 +154,12 @@ const CreateSession = () => {
 
             <Spacer />
             
-            <ThemedTextInput style={styles.textInput} placeholder="Materia (es. Matematica)" onChangeText={setSubject} value={subject} />
+            <ThemedTextInput marginBottom={20} style={styles.textInput} placeholder="Materia (es. Matematica)" onChangeText={setSubject} value={subject} />
 
-            <Spacer height={20} />
 
             <ThemedTextInput style={styles.textInput} placeholder="Topic (es. Moltiplicazioni)" onChangeText={setTopic} value={topic} />
 
-            <Spacer height={20} />
+            <Spacer />
 
             {hasReachedStep5 ? (
               <ThemedButton onPress={toRecap}>
@@ -172,7 +171,7 @@ const CreateSession = () => {
                   <ThemedText style={{color: "white"}}>Indietro</ThemedText>
                 </ThemedButton>
 
-                <Spacer width="20%" />
+                <Spacer width={20} />
 
                 <ThemedButton disabled={!topic || !subject} onPress={nextStep} marginTop={30} >
                   <ThemedText style={{color: "white"}}>Avanti</ThemedText>
@@ -201,8 +200,7 @@ const CreateSession = () => {
               ))}
             </ThemedView>
             
-
-            <Spacer height={20} />
+            <Spacer />
 
             <ThemedView center row>
               {!hasReachedStep5 ? (
@@ -210,10 +208,10 @@ const CreateSession = () => {
                   <ThemedButton onPress={prevStep} marginTop={30}>
                     <ThemedText style={{color: "white"}}>Indietro</ThemedText>
                   </ThemedButton>
-                  <Spacer width="20%" />
+                  <Spacer width={20} />
                 </>
               ) : (
-                <Spacer width="48%" />
+                <Spacer width={48} />
               )}
 
 
@@ -238,25 +236,22 @@ const CreateSession = () => {
                 </ThemedView>
                 {errors.studyTime && <ThemedText warning={true}>{errors.studyTime}</ThemedText>}
 
-                <Spacer height="22"/>
 
-                <ThemedText fontSize={18} title>Pausa corta (minuti)</ThemedText>
+                <ThemedText marginTop={15} fontSize={18} title>Pausa corta (minuti)</ThemedText>
                 <ThemedView center row>
                   <ThemedNumInput center width="70%" placeholder="Durata pausa corta (es. 5)" onChangeText={setShortBreak} value={shortBreak} />
                 </ThemedView>
                 {errors.shortBreak && <ThemedText warning={true}>{errors.shortBreak}</ThemedText>}
                 
-                <Spacer height="22"/>
 
-                <ThemedText fontSize={18} title>Pausa lunga (minuti)</ThemedText>
+                <ThemedText marginTop={15} fontSize={18} title>Pausa lunga (minuti)</ThemedText>
                 <ThemedView center row>
-                  <ThemedNumInput center width="70%" placeholder="Durata pausa lunga (es. 15)" onChangeText={setLongBreak} value={longBreak} />
+                  <ThemedNumInput  center width="70%" placeholder="Durata pausa lunga (es. 15)" onChangeText={setLongBreak} value={longBreak} />
                 </ThemedView>
                 {errors.longBreak && <ThemedText warning={true}>{errors.longBreak}</ThemedText>}
                 
-                <Spacer height="22"/>
 
-                <ThemedText fontSize={18} title>Cicli prima della pausa lunga</ThemedText>
+                <ThemedText marginTop={15} fontSize={18} title>Cicli prima della pausa lunga</ThemedText>
                 <ThemedView center row>
                   <ThemedNumInput center width="70%" placeholder="Cicli prima della pausa lunga (es. 4)" onChangeText={setNumCycles} value={numCycles} />
                 </ThemedView>
@@ -339,7 +334,7 @@ const CreateSession = () => {
                   <ThemedText style={{color: "white"}}>Annulla</ThemedText>
                 </ThemedButton>
 
-                <Spacer width="20%" />
+                <Spacer width={20} />
 
                 <ThemedButton onPress={nextStep} marginTop={30}>
                   <ThemedText style={{color: "white"}}>Inizia sessione</ThemedText>

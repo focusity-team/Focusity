@@ -72,14 +72,14 @@ const Login = () => {
           />
           {errors.password && <ThemedText warning={true}>{errors.password}</ThemedText>}
 
-          <ThemedText marginBottom={10}>
+          <ThemedText >
               Non hai ancora un account?
               <Link href="/register">
                 <ThemedText link={true}> Registrati</ThemedText>
               </Link>
           </ThemedText>
 
-          <ThemedButton disabled={!username || !password} marginTop={15} scale={1.2} onPress={handleSubmit}>
+          <ThemedButton marginTop={30} disabled={!username || !password}  scale={1.2} onPress={handleSubmit}>
             <ThemedText style={{color: "white"}}>Accedi</ThemedText>
           </ThemedButton>
       </ThemedView>

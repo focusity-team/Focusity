@@ -3,7 +3,7 @@ import { TextInput, useColorScheme } from "react-native";
 import { Colors } from "../constants/Colors";
 import { moderateScale } from "react-native-size-matters";
 
-const NumInput = ({center=false, style, onChangeText, value, decimal = false, ...props }) => {
+const NumInput = ({center=false, marginBottom=0, style, onChangeText, value, decimal = false, ...props }) => {
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme] ?? Colors.light;
 
@@ -33,6 +33,7 @@ const NumInput = ({center=false, style, onChangeText, value, decimal = false, ..
           color: theme.title,
           padding: moderateScale(20),
           borderRadius: 20,
+          marginBottom: moderateScale(marginBottom),
         },
         center && {textAlign: "center"},
         style,

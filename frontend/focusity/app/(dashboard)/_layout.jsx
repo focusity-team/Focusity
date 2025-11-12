@@ -3,6 +3,10 @@ import { useColorScheme } from "react-native"
 import { Colors } from "../../constants/Colors"
 import { Ionicons } from "@expo/vector-icons"
 import { StatusBar } from "expo-status-bar"
+import { moderateScale } from "react-native-size-matters"
+
+// THEMED
+import ThemedIcons from "../../components/ThemedIcons"
 
 const DashboardLayout = () => {
     const colorScheme = useColorScheme()
@@ -18,16 +22,16 @@ const DashboardLayout = () => {
             tabBarShowLabel: false,
             headerShown: false,
             tabBarStyle:{
-            backgroundColor: theme.navBackground,
-            paddingTop: 15,
-            height: 80
-        },
+                backgroundColor: theme.navBackground,
+                paddingTop: 15,
+                height: moderateScale(80)
+            },
         tabBarActiveTintColor: theme.iconColorFocused,
         tabBarInactiveTintColor: theme.iconColor
     }}
     >
         <Tabs.Screen name="sessions" options={{tabBarIcon: ({focused}) => (
-            <Ionicons
+            <ThemedIcons
                 size={ICON_SIZE}
                 name={focused ? "school" : "school-outline"}
                 color={focused ? theme.iconColorFocused : theme.iconColor}
@@ -35,7 +39,7 @@ const DashboardLayout = () => {
         )}}/>
 
         <Tabs.Screen name="profile" options={{tabBarIcon: ({focused}) => (
-            <Ionicons
+            <ThemedIcons
                 size={ICON_SIZE}
                 name={focused ? "person" : "person-outline"}
                 color={focused ? theme.iconColorFocused : theme.iconColor}

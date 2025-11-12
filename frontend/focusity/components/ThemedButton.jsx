@@ -8,7 +8,7 @@ import { Colors } from "../constants/Colors"
 const ThemedButton = ({warning=false, scale=1, marginTop=0, style, disabled=false, ...props}) => {
   return (
     <Pressable
-        style={({ pressed }) => [styles.btn, {marginTop: 100}, disabled && styles.disabled, pressed && !disabled && styles.pressed, warning && {backgroundColor: Colors.warning}, {transform: [{ scale: !disabled && pressed ? scale * 0.85 : scale }]}, style]}
+        style={({ pressed }) => [styles.btn, {marginTop: moderateScale(marginTop)}, disabled && styles.disabled, pressed && !disabled && styles.pressed, warning && {backgroundColor: Colors.warning}, {transform: [{ scale: !disabled && pressed ? scale * 0.85 : scale }]}, style]}
         disabled={disabled}
         {...props}
     />

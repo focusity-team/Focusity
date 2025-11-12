@@ -4,31 +4,45 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { responsiveWidth as wp} from 'react-native-responsive-dimensions';
 
 
-const ThemedView = ({width=100, style, row=false, container=false, center=false, centerV=false, centerH=false, safe=false, ...props}) => {
+const ThemedView = ({width, style, row=false, container=false, center=false, centerV=false, centerH=false, safe=false, ...props}) => {
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
 
   if (!safe) {
     return (
       <View
-      style={[{
-          backgroundColor: theme.background, width: wp(width)}, style, container && styles.container, row && styles.row, center && styles.center, centerV && styles.centerV, centerH && styles.centerH]}
-          {...props}
+        style={[{
+          backgroundColor: theme.background,
+          width: width ? wp(width) : 'auto'
+        },
+        style,
+        container && styles.container,
+        row && styles.row,
+        center && styles.center,
+        centerV && styles.centerV,
+        centerH && styles.centerH]}
+        {...props}
       />
     )
   }
 
-  const insets = useSafeAreaInsets()
+const insets = useSafeAreaInsets()
 
   return (
     <View
-    style={[{
+      style={[{
         backgroundColor: theme.background,
         marginTop: insets.top,
         marginBottom: insets.bottom,
-        width: wp(width)
-      }, style, row && style.row, container && styles.container, center && styles.center, centerV && styles.centerV, centerH && styles.centerH]}
-        {...props}
+        width: width ? wp(width) : 'auto'
+      },
+      style,
+      row && styles.row,
+      container && styles.container,
+      center && styles.center,
+      centerV && styles.centerV,
+      centerH && styles.centerH]}
+      {...props}
     />
   )
 }

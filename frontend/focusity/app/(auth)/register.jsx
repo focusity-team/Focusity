@@ -77,14 +77,14 @@ const Register = () => {
         />
         {errors.password && <ThemedText warning={true}>{errors.password}</ThemedText>}
 
-        <ThemedText marginBottom={10}>
+        <ThemedText>
           Sei già registrato?
           <Link href="/login">
             <ThemedText link={true}> Accedi</ThemedText>
           </Link>
         </ThemedText>
 
-        <ThemedButton disabled={!username || !password || !email} marginTop={15} scale={1.2} onPress={handleSubmit}>
+        <ThemedButton disabled={!username || !password || !email} marginTop={30} scale={1.2} onPress={handleSubmit}>
           <ThemedText style={{ color: "white" }}>Registrati</ThemedText>
         </ThemedButton>
       </ThemedView>
