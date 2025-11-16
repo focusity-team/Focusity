@@ -1,5 +1,5 @@
 import { Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import {useState} from "react"
 
 // THEMED
@@ -15,6 +15,9 @@ import DataValidator from '../../components/DataValidator'
 // CUSTOM HOOKS
 import useUser from "../../hooks/useUser"
 
+// API
+import { login } from '../../api/auth'
+
 
 const Login = () => {
   const [username, setUsername] = useState("")
@@ -25,7 +28,7 @@ const Login = () => {
 
   const { user } = useUser()
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const result = validator.validate({
         username: username,
         password: password,
@@ -41,9 +44,18 @@ const Login = () => {
     }
 
     setErrors({})
-    console.log("current user:", user)
-    console.log("user logged:", username, password)
+    
+    console.log("user credentials:", username, password)
+    
     // API
+    try {
+      const user = await login(username, password);
+      console.log("user logged:", username, password)
+      
+      router.replace("/(dashboard)/profile")
+    } catch (err) {
+      setErrors("Credenziali sbagliate");
+    }
   }
 
   return (

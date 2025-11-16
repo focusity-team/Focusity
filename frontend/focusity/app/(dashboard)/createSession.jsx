@@ -6,12 +6,12 @@ import { moderateScale } from 'react-native-size-matters'
 
 // THEMED
 import ThemedView from '../../components/ThemedView'
-import ThemedText from '../../components/ThemedText'
 import ThemedTextInput from '../../components/ThemedTextInput'
 import ThemedNumInput from '../../components/ThemedNumInput'
 import Spacer from '../../components/Spacer'
 import ThemedButton from '../../components/ThemedButton'
 import ThemedCard from '../../components/ThemedCard'
+import ThemedText from '../../components/ThemedText'
 
 // CONSTANTS
 import DataValidator from '../../components/DataValidator'
