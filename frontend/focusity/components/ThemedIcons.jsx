@@ -4,11 +4,11 @@ import { Ionicons } from '@expo/vector-icons'
 import { moderateScale } from 'react-native-size-matters'
 import { Colors } from '../constants/Colors'
 
-const ThemedIcons = ({size=10, color=null, style, ...props}) => {
+const ThemedIcons = ({size=10, marginRight=0, color=null, style, ...props}) => {
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
   return (
-    <Ionicons size={moderateScale(size)} style={[{color: color ? color : theme.iconColorFocused}, style]} {...props} />
+    <Ionicons size={moderateScale(size)} style={[{color: color ? color : theme.iconColorFocused, marginRight: moderateScale(marginRight)}, style]} {...props} />
   )
 }
 

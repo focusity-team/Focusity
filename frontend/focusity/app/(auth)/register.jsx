@@ -1,6 +1,6 @@
 import { Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import React, { useState } from 'react'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 
 // THEMED
 import ThemedView from '../../components/ThemedView'
@@ -11,16 +11,23 @@ import Spacer from '../../components/Spacer'
 
 // CONSTANTS
 import DataValidator from '../../components/DataValidator'
+import { register } from '../../api/auth'
+import ThemedActivityIndicator from '../../components/ThemedActivityIndicator'
+
+import { useRegister } from '../../hooks/useAuth'
 
 const Register = () => {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState({})
+  const [isRegistering, setIsRegistering] = useState(false)
 
+  const registerMutation = useRegister();
+  
   const validator = DataValidator({ type: "UserData" });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const result = validator.validate({
       username: username,
       email: email,
@@ -37,8 +44,18 @@ const Register = () => {
     }
 
     setErrors({})
-    console.log("Utente registrato:", username, email, password)
-    // API
+    console.log("Utente credenziali:", username, email, password)
+    
+    setIsRegistering(true)
+    try {
+      const userData = await registerMutation.mutateAsync({ username, email, password });
+      console.log('utente registrato', userData);
+      router.replace('/(dashboard)/profile');
+    } catch (err) {
+      setErrors({ wrongCredentials: "Credenziali sbagliate" });
+    } finally {
+      setIsRegistering(false)
+    }
   }
 
   return (
@@ -84,8 +101,12 @@ const Register = () => {
           </Link>
         </ThemedText>
 
-        <ThemedButton disabled={!username || !password || !email} marginTop={30} scale={1.2} onPress={handleSubmit}>
-          <ThemedText style={{ color: "white" }}>Registrati</ThemedText>
+        <ThemedButton marginTop={30} disabled={!username || !password || isRegistering || registerMutation.isLoading}  scale={1.2} onPress={handleSubmit}>
+            {isRegistering ? (
+              <ThemedActivityIndicator inButton />
+            ) : (
+              <ThemedText disabled={isRegistering} style={{color: "white"}}>Registrati</ThemedText>
+            )}
         </ThemedButton>
       </ThemedView>
     </TouchableWithoutFeedback>

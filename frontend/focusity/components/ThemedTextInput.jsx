@@ -1,25 +1,33 @@
-import { TextInput, useColorScheme } from "react-native"
-import { moderateScale } from "react-native-size-matters"
+import { TextInput, useColorScheme } from "react-native";
+import { moderateScale } from "react-native-size-matters";
+import { forwardRef } from "react";
 
 // CONSTANTS
-import { Colors } from "../constants/Colors"
+import { Colors } from "../constants/Colors";
 
-const ThemedTextInput = ({marginBottom=0, style, ...props}) => {
-    const colorScheme = useColorScheme()
-    const theme = Colors[colorScheme] ?? Colors.light
+const ThemedTextInput = forwardRef(({ marginBottom = 0, padding=20, style, ...props }, ref) => {
+  const colorScheme = useColorScheme();
+  const theme = Colors[colorScheme] ?? Colors.light;
 
   return (
-    <TextInput placeholderTextColor={theme.placeholderTextColor} style={[{
-        fontSize: moderateScale(14),
-        backgroundColor: theme.uiBackground,
-        color: theme.title,
-        padding: moderateScale(20),
-        borderRadius: 20,
-        marginBottom: moderateScale(marginBottom),
-    }, style]}
-    {...props}
+    <TextInput
+      ref={ref}
+      placeholderTextColor={theme.placeholderTextColor}
+      style={[
+        {
+          fontSize: moderateScale(14),
+          backgroundColor: theme.uiBackground,
+          color: theme.title,
+          padding: moderateScale(padding),
+          borderRadius: 20,
+          marginBottom: moderateScale(marginBottom),
+          width: "80%",
+        },
+        style,
+      ]}
+      {...props}
     />
-  )
-}
+  );
+});
 
-export default ThemedTextInput
+export default ThemedTextInput;

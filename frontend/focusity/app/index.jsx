@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View} from 'react-native'
-import React from 'react'
-import { Link } from "expo-router"
+import { Link, router } from "expo-router"
 
 // THEMED
 import ThemedText from '../components/ThemedText'
+import ThemedButton from "../components/ThemedButton"
 
 const Home = () => {
   return (
@@ -13,6 +13,19 @@ const Home = () => {
       <Link href="/register">Register</Link>
       <Link href="/profile">Profilo</Link>
       <Link href="/sessions">Sessioni</Link>
+      
+      <ThemedButton onPress={() => router.replace("/login")}>
+            <Text title>Login</Text>
+      </ThemedButton>
+      <ThemedButton onPress={() => router.replace("/register")}>
+            <Text title>Register</Text>
+      </ThemedButton>
+      <ThemedButton onPress={() => router.replace("/profile")}>
+            <Text title>Profilo</Text>
+      </ThemedButton>
+      <ThemedButton onPress={() => router.replace("/sessions")}>
+            <Text title>Sessioni</Text>
+      </ThemedButton>
     </View>
   )
 }

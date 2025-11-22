@@ -1,6 +1,6 @@
 import { Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { Link, router } from 'expo-router'
-import {useState} from "react"
+import {useRef, useState} from "react"
 
 // THEMED
 import ThemedTextInput from "../../components/ThemedTextInput"
@@ -8,27 +8,33 @@ import ThemedButton from '../../components/ThemedButton'
 import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 import Spacer from '../../components/Spacer'
+import ThemedActivityIndicator from '../../components/ThemedActivityIndicator'
 
 // CONSTANTS
 import DataValidator from '../../components/DataValidator'
 
-// CUSTOM HOOKS
-import useUser from "../../hooks/useUser"
-
-// API
-import { login } from '../../api/auth'
+// HOOKS
+import { useLogin } from "../../hooks/useAuth"
 
 
 const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState({})
+  const [isLogging, setIsLogging] = useState(false)
   
-  const validator = DataValidator({ type: "UserData" });
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
 
-  const { user } = useUser()
+  const validator = DataValidator({ type: "UserData" });
+  
+  const loginMutation = useLogin();
 
   const handleSubmit = async () => {
+    usernameRef.current?.blur();
+    passwordRef.current?.blur();
+    Keyboard.dismiss();
+
     const result = validator.validate({
         username: username,
         password: password,
@@ -46,15 +52,16 @@ const Login = () => {
     setErrors({})
     
     console.log("user credentials:", username, password)
-    
-    // API
+  
+    setIsLogging(true)
     try {
-      const user = await login(username, password);
-      console.log("user logged:", username, password)
-      
-      router.replace("/(dashboard)/profile")
+      const userData = await loginMutation.mutateAsync({ username, password });
+      console.log('utente loggato', userData);
+      router.replace('/(dashboard)/profile');
     } catch (err) {
-      setErrors("Credenziali sbagliate");
+      setErrors({ wrongCredentials: "Credenziali sbagliate" });
+    } finally {
+      setIsLogging(false)
     }
   }
 
@@ -66,23 +73,33 @@ const Login = () => {
           <Spacer />
 
           <ThemedTextInput
+            ref={usernameRef}
             marginBottom={20}
             width="80%"
             placeholder="Username"
             onChangeText={setUsername}
             value={username}
+            autoComplete="username"
+            textContentType="username"
+            autoCapitalize="none"
+            importantForAutofill="yes"
           />
           {errors.username && <ThemedText warning={true}>{errors.username}</ThemedText>}
 
           <ThemedTextInput
+            ref={passwordRef}
             width="80%"
             marginBottom={20}
             placeholder="Password"
             onChangeText={setPassword}
             value={password}
             secureTextEntry
+            autoComplete="password"
+            textContentType="password"
+            importantForAutofill="yes"
           />
           {errors.password && <ThemedText warning={true}>{errors.password}</ThemedText>}
+          {errors.wrongCredentials && <ThemedText warning={true}>{errors.wrongCredentials}</ThemedText>}
 
           <ThemedText >
               Non hai ancora un account?
@@ -90,9 +107,12 @@ const Login = () => {
                 <ThemedText link={true}> Registrati</ThemedText>
               </Link>
           </ThemedText>
-
-          <ThemedButton marginTop={30} disabled={!username || !password}  scale={1.2} onPress={handleSubmit}>
-            <ThemedText style={{color: "white"}}>Accedi</ThemedText>
+          <ThemedButton marginTop={30} disabled={!username || !password || isLogging || loginMutation.isLoading}  scale={1.2} onPress={handleSubmit}>
+            {loginMutation.isLoading ? (
+              <ThemedActivityIndicator inButton />
+            ) : (
+              <ThemedText style={{color: "white"}}>Accedi</ThemedText>
+            )}
           </ThemedButton>
       </ThemedView>
     </TouchableWithoutFeedback>

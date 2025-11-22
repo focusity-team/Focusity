@@ -1,19 +1,23 @@
 import { StyleSheet, useColorScheme, View } from 'react-native'
 import { Colors } from '../constants/Colors'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { responsiveWidth as wp} from 'react-native-responsive-dimensions';
+import { responsiveWidth as wp, responsiveHeight as hp} from 'react-native-responsive-dimensions';
+import { moderateScale } from 'react-native-size-matters';
 
 
-const ThemedView = ({width, style, row=false, container=false, center=false, centerV=false, centerH=false, safe=false, ...props}) => {
+const ThemedView = ({marginBottom=0, height, width, style, row=false, container=false, center=false, centerV=false, centerH=false, safe=false, ...props}) => {
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
+  const insets = useSafeAreaInsets()
 
   if (!safe) {
     return (
       <View
         style={[{
           backgroundColor: theme.background,
-          width: width ? wp(width) : 'auto'
+          width: width ? wp(width) : 'auto',
+          marginBottom: moderateScale(marginBottom),
+          height: height ? hp(height) : "auto",
         },
         style,
         container && styles.container,
@@ -26,7 +30,6 @@ const ThemedView = ({width, style, row=false, container=false, center=false, cen
     )
   }
 
-const insets = useSafeAreaInsets()
 
   return (
     <View
