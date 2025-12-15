@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 
 // THEMED
 import ThemedText from '../../components/ThemedText'
@@ -12,8 +12,8 @@ const Sessions = () => {
     <ThemedView safe={true}>
         <ThemedText>Sessions</ThemedText>
 
-        <ThemedButton>
-            <Link href="/createSession">Nuova Sessione</Link>
+        <ThemedButton onPress={() => router.push("/create-session/session")}>
+            <ThemedText title>Nuova Sessione</ThemedText>
         </ThemedButton>
     </ThemedView>
   )

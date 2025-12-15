@@ -2,7 +2,7 @@ import axios from "axios";
 import { TokenService } from "./TokenService";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://192.168.1.12:8080",
 });
 
 let isRefreshing = false;
