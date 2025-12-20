@@ -16,7 +16,7 @@ const Recap = () => {
     const {session, resetSession, setHasReachedStep5} = useSessionCreation()
 
     const nextStep = () => {
-        router.replace("/(dashboard)/profile")
+        router.replace("/session")
     }
 
     const cancel = () => {

@@ -9,7 +9,7 @@ function SessionResetWrapper({ children }) {
     useCallback(() => {
       return () => {
         resetSession();
-        router.replace("/(dashboard)/sessions")
+        //router.replace("/(dashboard)/sessions")
       };
     }, [resetSession])
   );

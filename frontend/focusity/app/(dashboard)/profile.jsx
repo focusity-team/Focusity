@@ -84,50 +84,39 @@ const Profile = () => {
 
   return (
     <ThemedView container safe>
-      <Spacer height={3}/>
 
-      <ThemedView row center>
-        <ThemedText fontSize={28} title>{profile.username="[username]"}</ThemedText>
-        <ThemedButton style={{position: "absolute", right: "8%"}} noStyle noBg onPress={() => router.push("/settings")}>
-          <ThemedIcons size={25} name="menu" />
-        </ThemedButton>
-      </ThemedView>
+    <ThemedButton style={{position: "absolute", top: "3%", right: "8%"}} noStyle noBg onPress={() => router.push("/settings")}>
+      <ThemedIcons size={25} name="menu" />
+    </ThemedButton>
 
-      <Spacer height={3}/>
-      <Hr />
-      <Spacer height={3}/>
+    <Spacer height={20}/>
 
-      <ThemedView row centerV>
-        <Spacer width={2} height={0} />
-        <ThemedIcons size={20} name="radio-button-on" color={"green"} />
-        <Spacer width={2} height={0} />
-        <ThemedImage source={pfp} />
-
-        <Spacer width={2} height={0} />
-
-        <ThemedView width={67} style={{backgroundColor: "gray"}}>
-          <ThemedText fontSize={20} title>{profile.name}</ThemedText>
-          <Spacer />
-          <ThemedView width={67} height={60} fontSize={18} style={{backgroundColor: "red"}}>
-            <ThemedText >{profile.description}</ThemedText>
-          </ThemedView>
-        </ThemedView>
-      </ThemedView>
-
+    <ThemedView center>
+      <ThemedImage size={150} source={pfp} />
+      <Spacer height={5} />
+      <ThemedText fontSize={30} title>{profile.name}</ThemedText>
+      <ThemedText bold title>{profile.username="@username"}</ThemedText>
+      <Spacer height={4} />
+      <ThemedText >{profile.description}</ThemedText>
+      
       <Spacer height={10}/>
 
-    <ThemedView row center>
-      <ThemedView width={null} style={{ width: 'auto' }} center>
-        <ThemedText>today's study hours</ThemedText>
-        <ThemedText>"[study]"</ThemedText>
-      </ThemedView>
+      <ThemedView row center>
+        <ThemedButton uiBg onPress={() => router.push("/settings")} >
+          <ThemedView center>
+            <ThemedText>today's study hours</ThemedText>
+            <ThemedText>"[study]"</ThemedText>
+          </ThemedView>
+        </ThemedButton>
 
-      <Spacer width={20} />
+        <ThemedButton uiBg onPress={() => router.push("/settings")} >
+          <ThemedView center>
+            <ThemedText>daily average</ThemedText>
+            <ThemedText>"[dailyavg]"</ThemedText>
+          </ThemedView>
+        </ThemedButton>
+    </ThemedView>
 
-      <ThemedView center>
-        <ThemedText>daily average</ThemedText>
-        <ThemedText>"[dailyavg]"</ThemedText>
-      </ThemedView>
     </ThemedView>
 
       <Spacer height={10}/>

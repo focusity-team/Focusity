@@ -12,7 +12,7 @@ const Sessions = () => {
     <ThemedView safe={true}>
         <ThemedText>Sessions</ThemedText>
 
-        <ThemedButton onPress={() => router.push("/create-session/session")}>
+        <ThemedButton onPress={() => router.replace("/create-session/session")}>
             <ThemedText title>Nuova Sessione</ThemedText>
         </ThemedButton>
     </ThemedView>

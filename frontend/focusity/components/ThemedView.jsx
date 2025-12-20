@@ -5,7 +5,7 @@ import { responsiveWidth as wp, responsiveHeight as hp} from 'react-native-respo
 import { moderateScale } from 'react-native-size-matters';
 
 
-const ThemedView = ({marginBottom=0, height, width, style, row=false, container=false, center=false, centerV=false, centerH=false, safe=false, ...props}) => {
+const ThemedView = ({marginBottom=0, marginLeft=0, height, width, style, row=false, container=false, center=false, centerV=false, centerH=false, safe=false, ...props}) => {
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
   const insets = useSafeAreaInsets()
@@ -17,6 +17,7 @@ const ThemedView = ({marginBottom=0, height, width, style, row=false, container=
           backgroundColor: theme.background,
           width: width ? wp(width) : 'auto',
           marginBottom: moderateScale(marginBottom),
+          marginLeft: moderateScale(marginLeft),
           height: height ? hp(height) : "auto",
         },
         style,
